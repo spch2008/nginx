@@ -28,15 +28,24 @@ struct ngx_queue_s {
     (x)->next = h;                               \
     (h)->prev = x
     
+#define ngx_queue_insert_after ngx_queue_insert_head
+    
 #define ngx_queue_head(h)                        \
     (h)->next
     
-#define ngx_queue_tail(h)                        \
+#define ngx_queue_last(h)                        \
     (h)->prev
     
     
 #define ngx_queue_sentinel(h)                    \
     (h)
+    
+    
+#define ngx_queue_next(q)                        \
+    (q)->next
+
+#define ngx_queue_prev(q)                        \
+    (q)->prev
     
 #define ngx_queue_remove(x)                      \
     (x)->next->prev = (x)->prev;                 \
@@ -49,7 +58,9 @@ struct ngx_queue_s {
     (n)->prev->next = h
     
     
-ngx_queue_t *ngx_queue_middle(h);
+ngx_queue_t *ngx_queue_middle(ngx_queue_t *queue);
+void ngx_queue_sort(ngx_queue_t *queue,
+    ngx_int_t (*cmp)(const ngx_queue_t *, const ngx_queue_t *));
 
 
 
